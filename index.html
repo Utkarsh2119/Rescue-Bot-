@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robo Error 101</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="brand">
+            <span class="logo">🤖</span>
+            <h1>Robo Error 101</h1>
+        </div>
+        <div class="status">
+            <span id="connectionDot" class="dot dot-disconnected"></span>
+            <span id="connectionText">Disconnected</span>
+        </div>
+    </header>
+
+    <section class="controls">
+        <div class="field">
+            <label for="cameraUrl">Camera URL</label>
+            <input id="cameraUrl" type="text" placeholder="http://device-ip:port/stream (MJPEG) or rtsp via gateway" />
+        </div>
+        <div class="buttons">
+            <button id="cameraConnectBtn" class="btn">Connect Stream</button>
+            <button id="useCameraHostBtn" class="btn subtle">Use camera host for sensors</button>
+        </div>
+        <div class="field">
+            <label for="endpoint">Endpoint</label>
+            <input id="endpoint" type="text" placeholder="ws://host:port or http://host:port/path" />
+        </div>
+        <div class="field">
+            <label for="protocol">Protocol</label>
+            <select id="protocol">
+                <option value="auto">Auto</option>
+                <option value="ws">WebSocket</option>
+                <option value="http">HTTP Polling</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="interval">Interval (ms)</label>
+            <input id="interval" type="number" min="250" step="250" value="1000" />
+        </div>
+        <div class="field checkbox">
+            <label class="checkbox-label">
+                <input id="mockToggle" type="checkbox" />
+                <span>Mock data</span>
+            </label>
+        </div>
+        <div class="buttons">
+            <button id="startBtn" class="btn primary">Start</button>
+            <button id="stopBtn" class="btn" disabled>Stop</button>
+            <button id="clearBtn" class="btn subtle">Clear</button>
+        </div>
+    </section>
+
+    <main class="content">
+        <section class="layout">
+            <aside class="camera" id="cameraPanel">
+                <div class="camera-header">
+                    <h2>Camera Output</h2>
+                    <div class="camera-actions">
+                        <button id="cameraStartBtn" class="btn primary">Start Camera</button>
+                        <button id="cameraStopBtn" class="btn" disabled>Stop</button>
+                    </div>
+                </div>
+                <div class="camera-body">
+                    <video id="cameraVideo" autoplay muted playsinline></video>
+                    <div id="cameraPlaceholder" class="camera-placeholder">No camera stream</div>
+                </div>
+            </aside>
+
+            <section class="dashboard">
+                <article id="connectivityCard" class="card connectivity">
+                    <div class="title">Connectivity</div>
+                    <div class="value">
+                        <span class="conn-dot dot dot-disconnected"></span>
+                        <span class="conn-text">Disconnected</span>
+                    </div>
+                </article>
+                <section class="six-grid" id="cards"></section>
+            </section>
+        </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+    
+</body>
+<!-- Expected JSON payload examples:
+{
+  "temperature": 24.3,
+  "gps": { "lat": 28.6139, "lng": 77.2090 },
+  "thermal": 36.5,
+  "gas": 120,
+  "battery": 87,
+  "botStatus": "Moving"
+}
+WebSocket: send this JSON per message. HTTP: return this JSON on each GET.
+-->
+</html>
+
+
